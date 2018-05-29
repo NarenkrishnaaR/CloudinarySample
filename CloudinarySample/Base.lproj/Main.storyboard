@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CloudinarySample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IWV-Yc-pRE">
+                                <rect key="frame" x="67.5" y="159" width="240" height="149"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="npK-KV-BaR"/>
+                                    <constraint firstAttribute="height" constant="149" id="wia-B6-19T"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="0Ui-If-BZv">
+                                <rect key="frame" x="89.5" y="393.5" width="196" height="80"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K4J-8V-ot2">
+                                        <rect key="frame" x="0.0" y="0.0" width="196" height="30"/>
+                                        <state key="normal" title="UPLOAD TO CLOUDINARY"/>
+                                        <connections>
+                                            <action selector="btnUploadFunc:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0ap-MI-9Ph"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHb-6w-91B">
+                                        <rect key="frame" x="0.0" y="50" width="196" height="30"/>
+                                        <state key="normal" title="FETCH IMAGE CLOUDINARY"/>
+                                        <connections>
+                                            <action selector="btnFetchFromCloudinaryFunc:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Tv0-9S-rix"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="IWV-Yc-pRE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ggg-Fq-tJ1"/>
+                            <constraint firstItem="IWV-Yc-pRE" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-100" id="j02-ih-rGl"/>
+                            <constraint firstItem="0Ui-If-BZv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="l7Y-Oh-xXg"/>
+                            <constraint firstItem="0Ui-If-BZv" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="100" id="zMI-lm-n1e"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="imgView" destination="IWV-Yc-pRE" id="aVN-Ys-QE7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+        </scene>
+    </scenes>
+</document>
