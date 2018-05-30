@@ -15,6 +15,7 @@
 		9B2474FD20BD17D80079D07E /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2474FC20BD17D80079D07E /* Enums.swift */; };
 		9B2474FF20BD37FA0079D07E /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2474FE20BD37FA0079D07E /* AlertView.swift */; };
 		9B24750120BD58E80079D07E /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B24750020BD58E80079D07E /* ActivityIndicator.swift */; };
+		9B24750320BE7A220079D07E /* CloudinarySetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B24750220BE7A220079D07E /* CloudinarySetup.swift */; };
 		D7E43628A5FFC7FD172FC7F9 /* Pods_CloudinarySample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 178AC12118D8D726B025A777 /* Pods_CloudinarySample.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +33,7 @@
 		9B2474FC20BD17D80079D07E /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		9B2474FE20BD37FA0079D07E /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		9B24750020BD58E80079D07E /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		9B24750220BE7A220079D07E /* CloudinarySetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudinarySetup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				9B2474FE20BD37FA0079D07E /* AlertView.swift */,
 				9B24750020BD58E80079D07E /* ActivityIndicator.swift */,
 				9B2474FC20BD17D80079D07E /* Enums.swift */,
+				9B24750220BE7A220079D07E /* CloudinarySetup.swift */,
 				9B2474EB20BD14C70079D07E /* Main.storyboard */,
 				9B2474EE20BD14CA0079D07E /* Assets.xcassets */,
 				9B2474F020BD14CA0079D07E /* LaunchScreen.storyboard */,
@@ -212,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B2474EA20BD14C70079D07E /* ViewController.swift in Sources */,
+				9B24750320BE7A220079D07E /* CloudinarySetup.swift in Sources */,
 				9B24750120BD58E80079D07E /* ActivityIndicator.swift in Sources */,
 				9B2474FF20BD37FA0079D07E /* AlertView.swift in Sources */,
 				9B2474FD20BD17D80079D07E /* Enums.swift in Sources */,
