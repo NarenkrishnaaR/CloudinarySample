@@ -14,13 +14,13 @@ class ViewController: UIViewController,UINavigationControllerDelegate, UIImagePi
   
   
   @IBOutlet weak var imgView: UIImageView!
-  
+  let cloudinary = CloudinaryMethods.init().cloudinary
   var imagePicker = UIImagePickerController()
   var height = ""
   var width = ""
-  let cloudinary = CloudinaryMethods.init().cloudinary
-  let effectsType = ["sepia","blur","blue"]
-  
+  let effectsType: Array<String> = [CloudinaryEffects.SEPIA.rawValue,CloudinaryEffects.ADVEREDEY.rawValue,CloudinaryEffects.AUTO_BRIGHTNESS.rawValue,CloudinaryEffects.AUTO_COLOR.rawValue,CloudinaryEffects.BLACK_WHITE.rawValue,CloudinaryEffects.BLUR.rawValue]
+  var selectedEffect = ""
+  var picker = UIPickerView()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -53,6 +53,104 @@ class ViewController: UIViewController,UINavigationControllerDelegate, UIImagePi
   
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
     return effectsType.count
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    return effectsType[row]
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    self.selectedEffect = effectsType[row]
+  }
+  
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    if let imgUrl = info[UIImagePickerControllerImageURL] as? URL{
+      let imgName = imgUrl.lastPathComponent
+      let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
+      let localPath = documentDirectory?.appending(imgName)
+      let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+      let data = UIImagePNGRepresentation(image)! as NSData
+      data.write(toFile: localPath!, atomically: true)
+      if let imageData = image.jpeg(.low){
+        UserDefaults.standard.set(imageData, forKey: "imageData")
+      }
+      //let imageData = NSData(contentsOfFile: localPath!)!
+      let photoURL = URL.init(fileURLWithPath: localPath!)//NSURL(fileURLWithPath: localPath!)
+      
+      UserDefaults.standard.set(photoURL, forKey: "imageUrl")
+      setupCloudinaryForImageUpload()
+      print(photoURL)
+      dismiss(animated: true, completion: nil)
+    }
+  }
+  
+  private func setPickerView(){
+    picker = UIPickerView(frame: CGRect(x: 0, y: self.view.frame.height/2+100, width: view.frame.width, height: 150))
+    picker.backgroundColor = UIColor.white
+    
+    picker.showsSelectionIndicator = true
+    picker.delegate = self
+    picker.dataSource = self
+    let toolBar = UIToolbar(frame: CGRect(x: 0, y: picker.frame.origin.y-50, width: picker.frame.width, height: 50))
+    toolBar.barStyle = .default
+    toolBar.isTranslucent = true
+    toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+    toolBar.sizeToFit()
+    
+    let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(pickerViewDoneButtonClicked))
+    let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+    let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(pickerViewCancelButtonClicked))
+    
+    toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+    toolBar.isUserInteractionEnabled = true
+    self.view.addSubview(toolBar)
+    self.view.addSubview(picker)
+  }
+  
+  @objc private func pickerViewDoneButtonClicked(){
+    if imgView.image != nil{
+      if let imageId = UserDefaults.standard.value(forKey: "uploadedImageName") as? String{
+        
+        if selectedEffect == CloudinaryEffects.ADVEREDEY.rawValue{
+          if let url = self.cloudinary?.createUrl().setTransformation(CLDTransformation().setEffect(.advRedeye)).generate(imageId)!{
+            self.imgView.cldSetImage(url, cloudinary: self.cloudinary!)
+          }
+        }else if selectedEffect == CloudinaryEffects.AUTO_BRIGHTNESS.rawValue{
+          if let url = self.cloudinary?.createUrl().setTransformation(CLDTransformation().setEffect(.autoBrightness)).generate(imageId)!{
+            self.imgView.cldSetImage(url, cloudinary: self.cloudinary!)
+          }
+        }else if selectedEffect == CloudinaryEffects.AUTO_COLOR.rawValue{
+          if let url = self.cloudinary?.createUrl().setTransformation(CLDTransformation().setEffect(.autoColor)).generate(imageId)!{
+            self.imgView.cldSetImage(url, cloudinary: self.cloudinary!)
+          }
+        }else if selectedEffect == CloudinaryEffects.BLACK_WHITE.rawValue{
+          if let url = self.cloudinary?.createUrl().setTransformation(CLDTransformation().setEffect(.blackwhite)).generate(imageId)!{
+            self.imgView.cldSetImage(url, cloudinary: self.cloudinary!)
+          }
+        }else if selectedEffect == CloudinaryEffects.BLUR.rawValue{
+          if let url = self.cloudinary?.createUrl().setTransformation(CLDTransformation().setEffect(.blur)).generate(imageId)!{
+            self.imgView.cldSetImage(url, cloudinary: self.cloudinary!)
+          }
+        }else if selectedEffect == CloudinaryEffects.SEPIA.rawValue{
+          if let url = self.cloudinary?.createUrl().setTransformation(CLDTransformation().setEffect(.sepia)).generate(imageId)!{
+            self.imgView.cldSetImage(url, cloudinary: self.cloudinary!)
+          }
+        }else if selectedEffect == CloudinaryEffects.BLUE.rawValue{
+          if let url = self.cloudinary?.createUrl().setTransformation(CLDTransformation().setEffect(.blue)).generate(imageId)!{
+            self.imgView.cldSetImage(url, cloudinary: self.cloudinary!)
+          }
+        }
+      }
+    }else{
+      AlertView.alertFunc(viewController: self, title: "Fetch Image", message: "", buttonTitle: "Ok")
+    }
+    picker.resignFirstResponder()
+  }
+  
+  @objc private func pickerViewCancelButtonClicked(){
+    picker.resignFirstResponder()
+    self.view.endEditing(true)
+    picker.isHidden = true
   }
   
   @IBAction func btnUploadFunc(_ sender: Any) {
@@ -104,56 +202,9 @@ class ViewController: UIViewController,UINavigationControllerDelegate, UIImagePi
     self.present(alertController, animated: true, completion: nil)
   }
   
-  
   @IBAction func btnEffectForImage(_ sender: Any) {
-    
-    let picker: UIPickerView
-    picker = UIPickerView(frame: CGRect(x: 0, y: 200, width: view.frame.width, height: 300))
-    picker.backgroundColor = UIColor.white
-    
-    picker.showsSelectionIndicator = true
-    picker.delegate = self
-    picker.dataSource = self
-    
-    let toolBar = UIToolbar()
-    toolBar.barStyle = .default
-    toolBar.isTranslucent = true
-    toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
-    toolBar.sizeToFit()
-    
-    let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: Selector("donePicker"))
-    let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-    let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: Selector(("donePicker")))
-    
-    toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-    toolBar.isUserInteractionEnabled = true
-    
-    if let imageId = UserDefaults.standard.value(forKey: "uploadedImageName") as? String{
-      if let url = self.cloudinary?.createUrl().setTransformation(CLDTransformation().setHeight(self.height).setWidth(self.width)).generate(imageId)!{
-        self.imgView.cldSetImage(url, cloudinary: self.cloudinary!)
-      }
-    }
-  }
-  
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-    if let imgUrl = info[UIImagePickerControllerImageURL] as? URL{
-      let imgName = imgUrl.lastPathComponent
-      let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first
-      let localPath = documentDirectory?.appending(imgName)
-      let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-      let data = UIImagePNGRepresentation(image)! as NSData
-      data.write(toFile: localPath!, atomically: true)
-      if let imageData = image.jpeg(.low){
-        UserDefaults.standard.set(imageData, forKey: "imageData")
-      }
-      //let imageData = NSData(contentsOfFile: localPath!)!
-      let photoURL = URL.init(fileURLWithPath: localPath!)//NSURL(fileURLWithPath: localPath!)
-      
-      UserDefaults.standard.set(photoURL, forKey: "imageUrl")
-      setupCloudinaryForImageUpload()
-      print(photoURL)
-      dismiss(animated: true, completion: nil)
-    }
+    setPickerView()
+    picker.isHidden = false
   }
 }
 

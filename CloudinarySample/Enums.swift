@@ -14,6 +14,16 @@ enum CloudinarySetup: String {
   case API_KEY = "454153526561491"
 }
 
+enum CloudinaryEffects: String {
+  case SEPIA =  "sepia"
+  case BLUR = "blur"
+  case BLUE = "blue"
+  case ADVEREDEY = "Advredey"
+  case AUTO_BRIGHTNESS = "autobrightness"
+  case AUTO_COLOR = "autocolor"
+  case BLACK_WHITE = "blackwhite"
+}
+
 extension  UIImage{
   enum JPEGQuality: CGFloat {
     case lowest  = 0
