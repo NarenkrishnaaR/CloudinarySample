@@ -162,44 +162,47 @@ class ViewController: UIViewController,UINavigationControllerDelegate, UIImagePi
   @IBAction func btnFetchFromCloudinaryFunc(_ sender: Any) {
     if let imagePublicId = UserDefaults.standard.value(forKey: "uploadedImageName") as? String{
       imgView.cldSetImage((cloudinary?.createUrl().generate(imagePublicId))!, cloudinary: cloudinary!)
-      //      if let imageUrl = cloudinary.createUrl().generate(imagePublicId){
-      //        let downloader:CLDDownloader = cloudinary.createDownloader()
-      //        downloader.fetchImage(imageUrl).response { (response, error) in
-      //          if response != nil{
-      //            self.imgView.image = response as? UIImage
-      //          }else{
-      //            print(error)
-      //          }
-      //        }
-      //      }
     }
+    //      if let imageUrl = cloudinary.createUrl().generate(imagePublicId){
+    //        let downloader:CLDDownloader = cloudinary.createDownloader()
+    //        downloader.fetchImage(imageUrl).response { (response, error) in
+    //          if response != nil{
+    //            self.imgView.image = response as? UIImage
+    //          }else{
+    //            print(error)
+    //          }
+    //        }
+    //      }
   }
   
   @IBAction func btnCropImage(_ sender: Any) {
-    
-    let alertController = UIAlertController(title: "Set Height anf Width", message: "", preferredStyle: .alert)
-    alertController.addTextField { (textField : UITextField!) -> Void in
-      textField.placeholder = "Width"
-    }
-    let saveAction = UIAlertAction(title: "Save", style: UIAlertActionStyle.default, handler: { alert -> Void in
-      let firstTextField = alertController.textFields![0] as UITextField
-      let secondTextField = alertController.textFields![1] as UITextField
-      self.height = firstTextField.text ?? ""
-      self.width = secondTextField.text ?? ""
-      if let imageId = UserDefaults.standard.value(forKey: "uploadedImageName") as? String{
-        if let url = self.cloudinary?.createUrl().setTransformation(CLDTransformation().setHeight(self.height).setWidth(self.width)).generate(imageId)!{
-          self.imgView.cldSetImage(url, cloudinary: self.cloudinary!)
-        }
+    if imgView.image != nil{
+      let alertController = UIAlertController(title: "Set Height and Width", message: "", preferredStyle: .alert)
+      alertController.addTextField { (textField : UITextField!) -> Void in
+        textField.placeholder = "Width"
       }
-    })
-    let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: {
-      (action : UIAlertAction!) -> Void in })
-    alertController.addTextField { (textField : UITextField!) -> Void in
-      textField.placeholder = "Height"
+      let saveAction = UIAlertAction(title: "Save", style: UIAlertActionStyle.default, handler: { alert -> Void in
+        let firstTextField = alertController.textFields![0] as UITextField
+        let secondTextField = alertController.textFields![1] as UITextField
+        self.height = firstTextField.text ?? ""
+        self.width = secondTextField.text ?? ""
+        if let imageId = UserDefaults.standard.value(forKey: "uploadedImageName") as? String{
+          if let url = self.cloudinary?.createUrl().setTransformation(CLDTransformation().setHeight(self.height).setWidth(self.width)).generate(imageId)!{
+            self.imgView.cldSetImage(url, cloudinary: self.cloudinary!)
+          }
+        }
+      })
+      let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default, handler: {
+        (action : UIAlertAction!) -> Void in })
+      alertController.addTextField { (textField : UITextField!) -> Void in
+        textField.placeholder = "Height"
+      }
+      alertController.addAction(saveAction)
+      alertController.addAction(cancelAction)
+      self.present(alertController, animated: true, completion: nil)
+    }else{
+      AlertView.alertFunc(viewController: self, title: "Choose any image and then crop", message: "", buttonTitle: "Ok")
     }
-    alertController.addAction(saveAction)
-    alertController.addAction(cancelAction)
-    self.present(alertController, animated: true, completion: nil)
   }
   
   @IBAction func btnEffectForImage(_ sender: Any) {
