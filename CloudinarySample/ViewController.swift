@@ -39,7 +39,7 @@ class ViewController: UIViewController,UINavigationControllerDelegate, UIImagePi
           let stringToUrl = URL(string: imageUrl)
           let imageName = stringToUrl?.lastPathComponent
           UserDefaults.standard.set(imageName, forKey: "uploadedImageName")
-          AlertView.alertFunc(viewController: self, title: "Image Uploaded Successfully", message: "", buttonTitle: "Ok")
+          AlertView.alertFunc(viewController: self, title: "Image uploaded successfully", message: "", buttonTitle: "Ok")
         }
       }else{
         AlertView.alertFunc(viewController: self, title: (error?.localizedDescription)!, message: "", buttonTitle: "Ok")
@@ -103,6 +103,7 @@ class ViewController: UIViewController,UINavigationControllerDelegate, UIImagePi
     
     toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
     toolBar.isUserInteractionEnabled = true
+    toolBar.barStyle = .default
     self.view.addSubview(toolBar)
     self.view.addSubview(picker)
   }
