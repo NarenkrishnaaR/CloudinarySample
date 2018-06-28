@@ -203,6 +203,7 @@ class ViewController: UIViewController,UINavigationControllerDelegate, UIImagePi
       self.present(alertController, animated: true, completion: nil)
     }else{
       AlertView.alertFunc(viewController: self, title: "Choose any image and then crop", message: "", buttonTitle: "Ok")
+    
     }
   }
   
